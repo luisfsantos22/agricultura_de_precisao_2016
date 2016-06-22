@@ -32,8 +32,10 @@
                             todos os Sensores <i class="fa fa-check "></i></a></li>
                     </ul>
                 </li>
-                <li><a href="conf" class="fa fa-cog"> Configuração</a></li>
-                <li><a href="alert" class="fa fa-warning"> Alertas</a></li>
+
+                <li><a href="{% url 'realtime' %}" class="fa fa-cog">Real-Time</a></li>
+                <li><a href="{% url 'config' %}" class="fa fa-cog"> Configuração</a></li>
+                <li><a href="{% url 'alert' %}" class="fa fa-warning"> Alertas</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle fa fa-user"
                        data-toggle="dropdown"> {{ request.session.username }}

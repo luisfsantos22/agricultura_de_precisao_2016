@@ -68,10 +68,6 @@ def agricprecisao(request):
     return render(request, 'AgriculturaPrecisao.html', context)
 
 
-def realtime(request):
-    return render(request, 'realtime.html')
-
-
 def get_100values(request):
     if request.is_ajax():
         if request.method == 'GET':
@@ -193,6 +189,17 @@ def logout(request):
 
 def navbar(request):
     return render(request, 'navbar.html')
+
+
+def realtime(request):
+    user_id = request.session['userID']
+    appkey_info = Appkey.objects.filter(userid=user_id)
+    context = {'appkey_info': appkey_info}
+    return render(request, 'realtime.html', context)
+
+
+def config(request):
+    return render(request, 'config.html')
 
 
 class UserViewSet(viewsets.ModelViewSet):

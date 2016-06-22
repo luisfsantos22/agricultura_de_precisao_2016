@@ -42,6 +42,8 @@ urlpatterns = [
     url(r'^appkeys', views.appkeys, name='appkeys'),
     url(r'^alert', views.alert, name='alert'),
     url(r'^navbar', views.navbar, name='navbar'),
+    url(r'^config', views.config, name='config'),
+
     # url(r'collapse/(?P<collapseid>[0-9])', views.collapse, name='collapse1'),
 
 ]
