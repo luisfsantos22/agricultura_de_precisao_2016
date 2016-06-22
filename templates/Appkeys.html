@@ -25,53 +25,7 @@
 
 </head>
 <body>
-<div id="header">
-    <nav class="navbar navbar-default navbar-static-top" role="navigation">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <!-- LOGO SITE( AGRICULTURA PRECISAO) -->
-            <a href="{% url 'appkeys' %}">
-                <img id="1" src="{% static 'images/agricprec.png' %}"
-                     style="width: 140px; margin-left: 2%; height: 50px">
-                <!--<h4 style="display: inline-block;color: #3d8b3d">Agricultura de Precisão</h4>-->
-            </a>
-
-        </div>
-
-        <!-- /.navbar-header -->
-        <div>
-            <ul id="dropMy" class="nav navbar-nav navbar-right" style="margin-right: 5%;">
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">View as
-                        <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#" id="waspView">Waspmotes <i class="fa fa-check "></i></a></li>
-                        <li><a href="#" id="sensorView">Sensors <i class="fa fa-check "></i></a></li>
-                    </ul>
-                </li>
-                <li><a>Config</a></li>
-                <li><a href="alert">Alerts</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Welcome {{ request.session.username }}
-                        <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">Separated link</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-
-    </nav>
-</div>
+<div id="includedContent"></div>
 
 <!--USAR O QUE ESTA PARA BAIXO-->
 <div class="container-fluid">
@@ -149,8 +103,6 @@
 </div>
 </body>
 <script src="{% static 'js/hours.js' %}"></script>
-
-
 <script src="{% static 'js/mqttws31.js' %}" type="text/javascript"></script>
 <script src="{% static 'js/realtime.js' %}" type="text/javascript"></script>
 
@@ -174,4 +126,10 @@
 <script src="{% static 'js/dashboard.js' %}"></script>
 
 <script src="{% static 'js/navbar.js' %}"></script>
+
+<script>
+    $(document).ready(function () {
+        $("#includedContent").load("{% url 'navbar' %}");
+    });
+</script>
 </html>

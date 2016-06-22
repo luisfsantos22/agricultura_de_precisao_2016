@@ -15,8 +15,9 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from Agricultura_Precisao import views
 from rest_framework import routers
+
+from Agricultura_Precisao import views
 
 router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
@@ -40,6 +41,7 @@ urlpatterns = [
     url(r'^get_typesensor', views.get_typesensor, name='get_typesensor'),
     url(r'^appkeys', views.appkeys, name='appkeys'),
     url(r'^alert', views.alert, name='alert'),
+    url(r'^navbar', views.navbar, name='navbar'),
     # url(r'collapse/(?P<collapseid>[0-9])', views.collapse, name='collapse1'),
 
 ]
