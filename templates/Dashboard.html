@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% load staticfiles %}
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'css/jquery-ui.css' %}" rel="stylesheet">
+    <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.canvasjs.min.js' %}"></script>
+    <script src="{% static 'js/jquery-ui.js' %}"></script>
+
+    <script>
+        window.onload = function () {
+            //Better to construct options first and then pass it as a parameter
+            var teste = {{ value_json|safe }};
+            var xValues = [];
+            var yValues = [];
+            for (var i = 0; i < teste.length; i++) {
+                xValues[i] = teste[i]["fields"]["timestamp"];
+                yValues[i] = teste[i]["fields"]["value"];
+            }
+
+            var dataP = [];
+            for (var i = 0; i < yValues.length; i++) {
+                dataP.push({x: 10, y: yValues[i]});
+            }
+            var chart = new CanvasJS.Chart("chartContainer", {
+                title: {
+                    text: "Values of Sensor"
+                },
+                data: [
+                    {
+                        type: "spline",
+                        dataPoints: dataP
+                    }
+                ]
+            });
+
+            chart.render();
+        }
+
+    </script>
+</head>
+<body>
+<div class="container" style="width: 50%; margin-right: 4%">
+    <h2 align="center">{{ sensor_id }}</h2>
+    <table class="table table-bordered table-responsive">
+        <thead>
+        <tr>
+            <th>Timestamp</th>
+            <th>Value</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for value in sensor_vals %}
+            <tr>
+                <td>{{ value.timestamp }}</td>
+                <td>{{ value.value }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<p>Date: <input type="text" id="datepicker"></p>
+<script>
+    $(function () {
+        $("#datepicker").datepicker();
+    });
+</script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,14 @@
+.container1 {
+    border: solid 1px #ff0000;
+    zoom: 1; /* IE6&7 */
+}
+
+.container1:before,
+.container1:after {
+    content: "";
+    display: table;
+}
+
+.container1:after {
+    clear: both;
+}
