@@ -25,89 +25,54 @@
 
 </head>
 <body>
-<div id="header">
-    <nav class="navbar navbar-default navbar-static-top" role="navigation">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <!-- LOGO SITE( AGRICULTURA PRECISAO) -->
-            <a href="{% url 'appkeys' %}">
-                <img id="1" src="{% static 'images/agricprec.png' %}"
-                     style="width: 140px; margin-left: 2%; height: 50px">
-                <!--<h4 style="display: inline-block;color: #3d8b3d">Agricultura de Precisão</h4>-->
-            </a>
+<div id="includedContent"></div>
+<!-- /.panel -->
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <i class="fa fa-clock-o fa-fw"></i> Linha do Tempo
+    </div>
+    <!-- /.panel-heading -->
+    <div class="panel-body">
+        <ul class="timeline">
+            {% for alert in alerts %}
+                {% if alert.sensorfk.status == 0 %}
+                    <li class="timeline-inverted">
+                    <div class="timeline-badge danger"><i class="fa fa-times"></i></div>
+                {% endif %}
+            {% if alert.sensorfk.status == 1 %}
+                <li>
+                <div class="timeline-badge warning"><i class="fa fa-times"></i></div>
+            {% endif %}
 
-        </div>
-
-        <!-- /.navbar-header -->
-        <div>
-            <ul id="dropMy" class="nav navbar-nav navbar-right" style="margin-right: 5%;">
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">View as
-                        <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#" id="waspView">Waspmotes <i class="fa fa-check "></i></a></li>
-                        <li><a href="#" id="sensorView">Sensors <i class="fa fa-check "></i></a></li>
-                    </ul>
-                </li>
-                <li><a>Config</a></li>
-                <li><a>Alerts</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Welcome {{ request.session.username }}
-                        <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">Separated link</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-
-    </nav>
-</div>
- <!-- /.panel -->
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <i class="fa fa-clock-o fa-fw"></i> Linha do Tempo
-            </div>
-            <!-- /.panel-heading -->
-            <div class="panel-body">
-                <ul class="timeline">
-                    {% for alert in alerts %}
-                        {% if alert.sensorfk.status == 0 %}
-                            <li class="timeline-inverted">
-                                <div class="timeline-badge danger"><i class="fa fa-times"></i></div>
+            <div class="timeline-panel">
+                <div class="timeline-heading">
+                    {% for wasp in waspmoteAlert %}
+                        {% if wasp.waspmoteid == alert.sensorfk.waspmoteid.waspmoteid %}
+                            <h3 class="timeline-title">{{ wasp.appkeyid.appkeyid }}</h3>
+                            <h5 class="timeline-title">{{ wasp.waspmote_name }}</h5>
+                            <p>
+                                <small class="text-muted"><i class="fa fa-clock-o"></i>{{ alert.timestampalert }}
+                                </small>
+                            </p>
                         {% endif %}
-                        {% if alert.sensorfk.status == 1 %}
-                            <li>
-                                <div class="timeline-badge warning"><i class="fa fa-times"></i></div>
-                        {% endif %}
-
-                                <div class="timeline-panel">
-                                    <div class="timeline-heading">
-                                    {%  for wasp in waspmoteAlert  %}
-                                        {% if wasp.waspmoteid == alert.sensorfk.waspmoteid.waspmoteid %}
-                                            <h3 class="timeline-title">{{ wasp.appkeyid.appkeyid}}</h3>
-                                            <h5 class="timeline-title">{{ wasp.waspmote_name }}</h5>
-                                            <p><small class="text-muted"><i class="fa fa-clock-o"></i>{{alert.timestampalert}}</small></p>
-                                        {% endif %}
-                                    {% endfor %}
-                                    </div>
-                                    <div class="timeline-body">
-                                        <p>Leitura: {{ alert.valuealert }}</p>
-                                        <p>Sensor: {{ alert.sensorfk.typesensorid.typesensorname}}</p>
-                                    </div>
-                                </div>
-
-                            </li>
                     {% endfor %}
-                </ul>
+                </div>
+                <div class="timeline-body">
+                    <p>Leitura: {{ alert.valuealert }}</p>
+                    <p>Sensor: {{ alert.sensorfk.typesensorid.typesensorname }}</p>
+                </div>
             </div>
-        </div>
+
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+</body>
+<script src="{% static 'js/jquery.js' %}"></script>
+<script>
+    $(document).ready(function () {
+        $("#includedContent").load("{% url 'navbar' %}");
+    });
+</script>
+</html>

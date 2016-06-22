@@ -1,18 +1,18 @@
 # Create your views here.
 
 
+import json
+import re
+
 from django.core import serializers
 from django.core.urlresolvers import reverse
+from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from rest_framework import viewsets
-import json
-from django.http import HttpResponse
-import re
-from datetime import date, timedelta
+
 from Agricultura_Precisao.models import Waspmote, User, Appkey, Sensorval, Typesensor, Sensor, Alert
 from Agricultura_Precisao.serializers import UserSerializer, SensorValSerializer, TypeSensorSerializer
-
 
 
 def index(request):
@@ -183,12 +183,16 @@ def appkeys(request):
     appkey_info = Appkey.objects.filter(userid=request.session['userID'])
     waspmote_info = Waspmote.objects.filter(appkeyid=appkey_info)
     context = {'appkey_info': appkey_info, 'waspmote_info': waspmote_info}
-    return render(request, 'AppKeys.html', context)
+    return render(request, 'Appkeys.html', context)
 
 
 def logout(request):
     request.session.clear()
     render(request, index)
+
+
+def navbar(request):
+    return render(request, 'navbar.html')
 
 
 class UserViewSet(viewsets.ModelViewSet):
