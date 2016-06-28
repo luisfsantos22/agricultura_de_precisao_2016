@@ -23,6 +23,13 @@
 
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
 
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#nav-includedContent').load('{% url 'navbar' %}');
+        });
+    </script>
+
 </head>
 <body onload="startTime()">
 
@@ -289,11 +296,6 @@
 <script src="{% static 'js/loading.js' %}"></script>
 <script src="{% static 'js/hours.js' %}"></script>
 
-<script>
-    $(document).ready(function () {
-        $("#includedContent").load("{% url 'navbar' %}");
-    });
-</script>
 
 <script src="{% static 'js/mqttws31.js' %}" type="text/javascript"></script>
 <script src="{% static 'js/realtime.js' %}" type="text/javascript"></script>

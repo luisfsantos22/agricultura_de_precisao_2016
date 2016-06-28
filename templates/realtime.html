@@ -15,25 +15,60 @@
 
 <div class="row">
 
-    <div class="col-md-3">
-        <div class="panel panel-heading">
-            <p>Menu</p>
-        </div>
-        <div class="panel panel-body">
-            <form role="form">
-                {% for appkey in appkey_info %}
-                    <div id="{{ appkey.appkeyid }}" class="checkbox">
-                        <label for="{{ appkey.appkey }}">
-                            <input id="{{ appkey.appkey }}" type="checkbox">
-                            Appkey: {{ appkey.appkey }}
-                        </label>
-                    </div>
+    <div class="col-md-3" style="margin-left: 2%">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <p>Menu</p>
+            </div>
+            <div class="panel-body">
+                <ul>
+                    <form role="form">
+                        <div class="list-inline" style="display: inline-block;">
+                            {% for appkey in app_info %}
+                                <ul style="padding-left: 0%">
+                                    <li>
+                                        <div id="{{ appkey.appkey }}">
+                                            Appkey: {{ appkey.appkey }}
+                                            <ul>
+                                                {% for waspmote in waspmote_info %}
+                                                    {% if waspmote.appkeyid_id == appkey.appkeyid %}
+                                                        <li>
+                                                            <div id=waspmote"{{ waspmote.waspmoteid }}">
+                                                                {{ waspmote.waspmote_name }}
+                                                                <ul>
+                                                                    {% for sensor in sensor_info %}
+                                                                        {% if  sensor.waspmoteid_id == waspmote.waspmoteid %}
+                                                                            <li>
+                                                                                <div id="sensor{{ sensor.sensorid }}">
+                                                                                    <input type="checkbox"
+                                                                                           class="checkbox-inline"> {{ sensor.typesensorid.typesensorname }}
+                                                                                </div>
+                                                                            </li>
+                                                                        {% endif %}
+                                                                    {% endfor %}
+                                                                </ul>
+                                                            </div>
+                                                        </li>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    </li>
+                                </ul>
 
-                {% endfor %}
+                            {% endfor %}
 
-            </form>
+                            <input type="button" id="realTimeButton" value="Submeter">
+                        </div>
+
+                    </form>
+
+
+                </ul>
+            </div>
         </div>
     </div>
+    <div class="col-md-8" id="realtime_graph"></div>
 </div>
 
 

@@ -91,9 +91,9 @@ def get_1000values(request):
             aux_list = re.findall('\d+', incoming_json)  # Buscar o id do sensor
             sensor_id = int(
                 ''.join(map(str, aux_list)))  # O id do sensor vem numa lista, isto serve para o meter num int
-            #LAST 30 DAYS
-            #temp = date.today() - timedelta(days=30)
-            #valuesmonth = Sensorval.objects.filter(sensor_fk=sensor_id, timestamp__gte=temp)
+            # LAST 30 DAYS
+            # temp = date.today() - timedelta(days=30)
+            # valuesmonth = Sensorval.objects.filter(sensor_fk=sensor_id, timestamp__gte=temp)
             # LAST 30 DAYS
             valuesmonth = Sensorval.objects.filter(sensor_fk=sensor_id)[::-1][:1000]
             datamonth = serializers.serialize("json", valuesmonth)
@@ -193,8 +193,11 @@ def navbar(request):
 
 def realtime(request):
     user_id = request.session['userID']
-    appkey_info = Appkey.objects.filter(userid=user_id)
-    context = {'appkey_info': appkey_info}
+    app_info = Appkey.objects.filter(userid=user_id)
+    waspmote_info = Waspmote.objects.filter(appkeyid__userid=user_id)
+    sensor_info = Sensor.objects.filter(waspmoteid__appkeyid__userid=user_id).order_by('waspmoteid__appkeyid',
+                                                                                       'waspmoteid')
+    context = {'sensor_info': sensor_info, 'app_info': app_info, 'waspmote_info': waspmote_info}
     return render(request, 'realtime.html', context)
 
 

@@ -13,16 +13,14 @@
 var chart;
 var typesensorname;
 $("#realTimeButton").click(function () {
-    $('#datepickD').hide();
-    $('#datepickIN').hide();
-    $('#datepickFI').hide();
-    var waspmoteId = jsonData.waspmoteId.replace(/^\D+/g, '');
-    var sensorId = jsonData.sensorId.replace(/^\D+/g, '');
-    var app_key = jsonData.app_key;
-    typesensorReader(sensorId);
+    //var waspmoteId = jsonData.waspmoteId.replace(/^\D+/g, '');
+    //var sensorId = jsonData.sensorId.replace(/^\D+/g, '');
+    //var app_key = jsonData.app_key;
+    //typesensorReader(sensorId);
     var MQTTbroker = '192.168.160.98';
     var MQTTport = 3000;
-    var MQTTsubTopic = 'Final/' + app_key + '/' + waspmoteId + '/Sensor/' + sensorId + '/#'; //works with wildcard # and + topics dynamically now
+    var MQTTsubTopic = 'Final/2312341/#/Sensor/#/#'; //works with wildcard # and + topics dynamically now
+    //var MQTTsubTopic = 'Final/' + app_key + '/' + waspmoteId + '/Sensor/' + sensorId + '/#'; //works with wildcard # and + topics dynamically now
 //mqtt broker
     var client = new Paho.MQTT.Client(MQTTbroker, MQTTport,
         "myclientid_" + parseInt(Math.random() * 100, 10));
@@ -49,7 +47,7 @@ $("#realTimeButton").click(function () {
 
     //Chamar as funções
     init();
-     $('#chartContainer').show();
+    $('#realtime_graph').show();
     draw_graphic();
 
     client.onMessageArrived = onMessageArrived;
@@ -129,7 +127,7 @@ $("#realTimeButton").click(function () {
     function draw_graphic() {
         chart = new Highcharts.Chart({
             chart: {
-                renderTo: 'chartContainer',
+                renderTo: 'realtime_graph',
                 defaultSeriesType: 'spline'
             },
             title: {
