@@ -191,6 +191,10 @@ def navbar(request):
     return render(request, 'navbar.html')
 
 
+def test(request):
+    return render(request, 'teste.html')
+
+
 def realtime(request):
     user_id = request.session['userID']
     app_info = Appkey.objects.filter(userid=user_id)
