@@ -9,7 +9,7 @@ $("#waspmote-rows").click(function () {
 });
 
 $(document).ready(function () {
-
+    
     /*
      * Função que guarda o sensorId numa variavel json, para quando o utilizador submeter a form, o ajax
      * mande o sensorId para o python para saber que valores é que tem de ir buscar
@@ -40,6 +40,7 @@ $(document).ready(function () {
         }
 
     });
+    
 
 
     $('#tableButton').click(function () {

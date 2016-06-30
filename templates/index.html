@@ -26,16 +26,24 @@
 
     <!-- Custom Fonts -->
     <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
-    <link href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet"
-          type="text/css">
-    <link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <!-- jQuery -->
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    <script src="{% static 'js/jquery.js' %}"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="{% static 'js/jquery.easing.min.js' %}"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="{% static 'js/sb-admin-2.js' %}"></script>
+
+
+    <script type="text/javascript" src="{% static 'popup/jquery-1.11.0.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'popup/jquery.leanModal.min.js' %}"></script>
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"/>
+    <link type="text/css" rel="stylesheet" href="{% static 'css/modal_style.css' %}"/>
 
 </head>
 
@@ -63,13 +71,9 @@
                 <li>
                     <a class="page-scroll" href="#about">Sobre</a>
                 </li>
-
                 <li>
-                    <!--href tem de ser mudado?-->
-                    <a href="login">Entrar</a>
+                    <a id="modal_trigger" href="#modal" class="">Login</a>
                 </li>
-
-
             </ul>
         </div>
         <!-- /.navbar-collapse -->
@@ -111,31 +115,107 @@
 </section>
 
 
+<div class="container">
+    <a id="modal_trigger" href="#modal" class="btn">Login</a>
+
+    <div id="modal" class="popupContainer" style="display:none;">
+        <header class="popupHeader">
+            <span class="header_title">Login</span>
+            <span class="modal_close"><i class="fa fa-times"></i></span>
+        </header>
+
+        <section class="popupBody">
+            <!-- Username & Password Login form -->
+            <div class="user_login">
+                <form role="form" action="{% url 'validate_login' %}" method="POST">
+                    {% csrf_token %}
+                    <label for="username">Utilizador</label>
+                    <input id="username" name="username" type="text"/>
+                    <br/>
+
+                    <label for="password">Password</label>
+                    <input id="password" name="password" type="password"/>
+                    <br/>
+
+                    <div class="checkbox">
+                        <input id="remember" type="checkbox"/>
+                        <label for="remember">Lembrar-me neste computador</label>
+                    </div>
+
+                    <div class="action_btns">
+                        <div class="one_half"><a href="#" class="btn btn_red register_btn">
+                            Registar</a></div>
+                        <div class="one_half last">
+                            <input type="submit" id="submit" class="btn btn_green" value="Login">
+                        </div>
+                    </div>
+                </form>
+
+                <a href="#" class="forgot_password">Esqueceu-se da password?</a>
+            </div>
+
+            <!-- Register Form -->
+            <div class="user_register">
+                <form>
+
+                    <label>Utilizador</label>
+                    <input type="text"/>
+                    <br/>
+
+                    <label>Endereçço de Email</label>
+                    <input type="email"/>
+                    <br/>
+
+                    <label>Nome Completo</label>
+                    <input type="text"/>
+                    <br/>
+
+                    <label>Password</label>
+                    <input type="password"/>
+                    <br/>
+                    <div class="action_btns">
+                        <div class="one_half"><a href="#" class="btn btn_back"><i
+                                class="fa fa-angle-double-left"></i>
+                            Voltar</a></div>
+                        <div class="one_half last"><a href="#" class="btn btn_red">Registar</a></div>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </div>
+</div>
+
+
 <!-- Footer -->
 <footer>
     <div class="container text-center">
         <p>Copyright &copy; Agricultura Precisão 2016</p>
     </div>
 </footer>
-
-<!-- jQuery -->
-<script src="{% static 'js/jquery.js' %}"></script>
-
-<!-- Bootstrap Core JavaScript -->
-<script src="{% static 'js/bootstrap.min.js' %}"></script>
-
-<!-- Plugin JavaScript -->
-<script src="{% static 'js/jquery.easing.min.js' %}"></script>
-
-<!-- Google Maps API Key - Use your own API key to enable the map feature. More information on the Google Maps API can be found at https://developers.google.com/maps/ -->
-<script type="text/javascript"
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRngKslUGJTlibkQ3FkfTxj3Xss1UlZDA&sensor=false"></script>
-
-
-<!-- Custom Theme JavaScript -->
-<script src="{% static 'js/sb-admin-2.js' %}"></script>
-
-
 </body>
+<script type="text/javascript">
+    $("#modal_trigger").leanModal({top: 200, overlay: 0.6, closeButton: ".modal_close"});
 
+    $(function () {
+        // Calling Login Form
+        $("#modal_trigger").click(function () {
+            $(".user_login").show();
+            return false;
+        });
+
+        $(".register_btn").click(function () {
+            $(".user_login").hide();
+            $(".user_register").show();
+            $(".header_title").text('Register');
+            return false;
+        });
+        $(".btn_back").click(function () {
+            $(".user_login").show();
+            $(".user_register").hide();
+            $(".header_title").text('Login');
+            return false;
+        });
+
+    })
+</script>
 </html>

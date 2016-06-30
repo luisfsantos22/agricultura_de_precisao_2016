@@ -6,62 +6,102 @@
 
     {% load staticfiles %}
 
-    <!-- Bootstrap Core CSS -->
-    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
-    <!-- Custom CSSTest -->
-    <link href="{% static 'css/testeCss.css' %}" rel="stylesheet">
-    <!-- Custom CSS -->
-    <link href="{% static 'css/sb-admin-2.css' %}" rel="stylesheet">
-    <!-- Custom Fonts -->
-    <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
-    <!-- MetisMenu CSS -->
-    <link href="{% static 'css/metisMenu.min.css' %}" rel="stylesheet">
-
-    <link href="{% static 'css/timeline.css' %}" rel="stylesheet">
-
-
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-
-    <!-- Bootstrap Core JavaScript -->
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
-    <!-- jQuery -->
-    <script src="{% static 'js/jquery.js' %}"></script>
-    <script src="{% static 'js/knockout-3.4.0.js' %}"></script>
-
-    <!-- Bootstrap Core JavaScript -->
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
-
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="{% static 'js/metisMenu.min.js' %}"></script>
-
-    <!-- Morris Charts JavaScript -->
-    <script src="{% static 'js/raphael-min.js' %}"></script>
-    <script src="{% static 'js/morris.js' %}"></script>
-
-    <!-- Custom Theme JavaScript -->
-    <script src="{% static 'js/sb-admin-2.js' %}"></script>
-
-    <script src="{% static 'js/main.js' %}"></script>
-
+    <script type="text/javascript" src="{% static 'popup/jquery-1.11.0.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'popup/jquery.leanModal.min.js' %}"></script>
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"/>
+    <link type="text/css" rel="stylesheet" href="{% static 'css/modal_style.css' %}"/>
 </head>
 <body>
-        <!--first row-->
-        <!--<div class="row">-->
-            <!--column averege-->
-            <!--<div class="col-md-6" id="columnChart" style="height: 250px; width: 40%;margin-left: 4%;"></div>-->
-            <!--end column averege-->
-            <!--Global status of Sensors-->
-            <!--<div class="col-md-6" id="statusChart" style="height: 250px; width: 40%;margin-left: 4%;"></div>-->
-            <!--end column averege-->
-            <!--Temperature averege-->
-            <!--<div class="col-md-6" id="chartTemperature"
-                 style="height: 250px; width: 40%;margin-left: 4%; margin-top: 2%"></div>-->
-            <!--end Temperature average-->
-            <!--reads per month-->
-            <!--<div class="col-md-6" id="chartReads"
-                 style="height: 250px; width: 40%;margin-left: 4%; margin-top: 2%"></div>-->
-            <!--end reads per month-->
-        <!--</div>-->
+<div class="container">
+    <a id="modal_trigger" href="#modal" class="btn">Login</a>
+
+    <div id="modal" class="popupContainer" style="display:none;">
+        <header class="popupHeader">
+            <span class="header_title">Login</span>
+            <span class="modal_close"><i class="fa fa-times"></i></span>
+        </header>
+
+        <section class="popupBody">
+            <!-- Username & Password Login form -->
+            <div class="user_login">
+                <form>
+                    <label>Utilizador</label>
+                    <input type="text"/>
+                    <br/>
+
+                    <label>Password</label>
+                    <input type="password"/>
+                    <br/>
+
+                    <div class="checkbox">
+                        <input id="remember" type="checkbox"/>
+                        <label for="remember">Lembrar-me neste computador</label>
+                    </div>
+
+                    <div class="action_btns">
+                        <div class="one_half"><a href="#" class="btn btn_red register_btn">
+                            Registar</a></div>
+                        <div class="one_half last"><a href="#" class="btn btn_green">Login</a></div>
+                    </div>
+                </form>
+
+                <a href="#" class="forgot_password">Esqueceu-se da password?</a>
+            </div>
+
+            <!-- Register Form -->
+            <div class="user_register">
+                <form>
+
+                    <label>Utilizador</label>
+                    <input type="text"/>
+                    <br/>
+
+                    <label>Endereçço de Email</label>
+                    <input type="email"/>
+                    <br/>
+
+                    <label>Nome Completo</label>
+                    <input type="text"/>
+                    <br/>
+
+                    <label>Password</label>
+                    <input type="password"/>
+                    <br/>
+                    <div class="action_btns">
+                        <div class="one_half"><a href="#" class="btn btn_back"><i
+                                class="fa fa-angle-double-left"></i>
+                            Voltar</a></div>
+                        <div class="one_half last"><a href="#" class="btn btn_red">Registar</a></div>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </div>
+</div>
+<script type="text/javascript">
+    $("#modal_trigger").leanModal({top: 200, overlay: 0.6, closeButton: ".modal_close"});
+
+    $(function () {
+        // Calling Login Form
+        $("#modal_trigger").click(function () {
+            $(".user_login").show();
+            return false;
+        });
+
+        $(".register_btn").click(function () {
+            $(".user_login").hide();
+            $(".user_register").show();
+            $(".header_title").text('Register');
+            return false;
+        });
+        $(".btn_back").click(function () {
+            $(".user_login").show();
+            $(".user_register").hide();
+            $(".header_title").text('Login');
+            return false;
+        });
+
+    })
+</script>
 </body>
 </html>
