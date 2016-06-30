@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 {% load staticfiles %}
+<body onload="startTime()">
 <div id="header">
     <nav class="navbar navbar-default navbar-static-top" role="navigation">
         <div class="navbar-header">
@@ -14,32 +15,23 @@
             <a href="{% url 'appkeys' %}">
                 <img id="1" src="{% static 'images/agricprec.png' %}"
                      style="width: 140px; margin-left: 2%; height: 50px">
-                <!--<h4 style="display: inline-block;color: #3d8b3d">Agricultura de Precisão</h4>-->
             </a>
         </div>
 
         <!-- /.navbar-header -->
         <div>
-            <ul id="dropMy" class="nav navbar-nav navbar-right" style="margin-right: 5%;">
+            <ul id="dropMy" class="nav navbar-nav navbar-right" style="margin-right: 1%;">
                 <li style="margin-right: 200px"><a class="fa fa-clock-o fa-2x" style="color: #2b2b2b" id="txt"></a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle fa fa-eye" data-toggle="dropdown"> Ver como
-                        <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#" id="waspView"><i class="fa fa-list-alt" style="visibility: visible"></i> Lista
-                            de Waspmotes <i class="fa fa-check "></i></a></li>
-                        <li><a href="#" id="sensorView"><i class="fa fa-list" style="visibility: visible"></i> Lista de
-                            todos os Sensores <i class="fa fa-check "></i></a></li>
-                    </ul>
-                </li>
-                <li><a href="conf" class="fa fa-cog"> Configuração</a></li>
-                <li><a href="alert" class="fa fa-warning"> Alertas</a></li>
+                <li><a href="{% url 'realtime' %}" class="fa fa-line-chart"> Real-Time</a></li>
+                <li><a href="{% url 'config' %}" class="fa fa-cog"> Configuração</a></li>
+                <li><a href="{% url 'alert' %}" class="fa fa-warning"> Alertas</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle fa fa-user"
                        data-toggle="dropdown"> {{ request.session.username }}
                         <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="#" class="fa fa-power-off"> LogOut</a></li>
+                        <li><a id="perfil" href="#" class="fa fa-user"> Perfil</a></li>
+                        <li><a href="{% url 'logout' %}" class="fa fa-power-off"> LogOut</a></li>
                     </ul>
                 </li>
             </ul>
@@ -47,4 +39,8 @@
 
     </nav>
 </div>
+</body>
+<script src="{% static 'js/hours.js' %}"></script>
+<script src="{% static 'js/perfil.js' %}"></script>
+<script src="{% static 'js/jquery-3.0.0.min.js' %}"></script>
 </html>

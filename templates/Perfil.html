@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ username }}</title>
+
+    {% load staticfiles %}
+
+    <!-- Bootstrap Core CSS -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <!-- Custom CSSTest -->
+    <link href="{% static 'css/testeCss.css' %}" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="{% static 'css/sb-admin-2.css' %}" rel="stylesheet">
+    <!-- Custom Fonts -->
+    <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
+    <!-- MetisMenu CSS -->
+    <link href="{% static 'css/metisMenu.min.css' %}" rel="stylesheet">
+
+    <link href="{% static 'css/timeline.css' %}" rel="stylesheet">
+
+    <link href="{% static 'css/jquery-ui.css' %}" rel="stylesheet">
+
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+</head>
+<body>
+<div class="row">
+    <div class="col-md-10"><h1 style="font-size: 50px; margin-left: 2%">Perfil de {{ username }}</h1></div>
+    <div id="close" class="col-md-2" style="text-align: right; padding-right: 4%; padding-top: 1% ">
+        <a href="#" class="fa fa-times fa-4x" style="color: #2b2b2b; text-decoration: none" id="closePerfil"></a>
+    </div>
+</div>
+<div class="row col-md-7">
+    <div class="row container col-md-8" style="padding: 1%">
+        <div class="col-md-4" style="font-size: 25px;">Nome :</div>
+        <div class="col-md-6" style="font-size: 25px;"> {{ name }}</div>
+    </div>
+    <div class="row container col-md-8" style="padding: 1%">
+        <div class="col-md-4" style="font-size: 25px;">Username :</div>
+        <div class="col-md-6" style="font-size: 25px;"> {{ username }}</div>
+    </div>
+    <div class="row container col-md-8" style="padding: 1%">
+        <div class="col-md-4" style="font-size: 25px;">Password :</div>
+        <div class="col-md-6" style="font-size: 25px;"> {{ password }}</div>
+        <div class="col-md-2">
+            <button class="btn btn-default">Editar</button>
+        </div>
+    </div>
+    <div class="row container col-md-8" style="padding: 1%">
+        <div class="col-md-4" style="font-size: 25px;">País :</div>
+        <div class="col-md-6" style="font-size: 25px;"> {{ country }}</div>
+        <div class="col-md-2">
+            <button class="btn btn-default">Editar</button>
+        </div>
+    </div>
+    <div class="row container col-md-8" style="padding: 1%">
+        <div class="col-md-4" style="font-size: 25px;">Cidade :</div>
+        <div class="col-md-6" style="font-size: 25px;"> {{ city }}</div>
+        <div class="col-md-2">
+            <button class="btn btn-default">Editar</button>
+        </div>
+    </div>
+    <div class="row container col-md-8" style="padding: 1%">
+        <div class="col-md-4" style="font-size: 25px;">Email :</div>
+        <div class="col-md-6" style="font-size: 25px;"> {{ mail }}</div>
+    </div>
+    <div class="row container col-md-8" style="padding: 1%">
+        <div class="col-md-4" style="font-size: 25px;">Telemóvel :</div>
+        <div class="col-md-6" style="font-size: 25px;"> {{ phone }}</div>
+        <div class="col-md-2">
+            <button class="btn btn-default">Editar</button>
+        </div>
+    </div>
+</div>
+<div class="row col-md-4">
+    <div style="font-size: 35px; padding: 2%; text-align: center">Appkeys</div>
+    {% for app in appk %}
+        <div class="row" style="font-size: 25px; padding: 5%">
+            <div class="fa fa-chevron-right"></div>
+            {{ app.appkey }}
+        </div>
+        {% for wasp in app.waspmote_set.all %}
+            <div style="font-size: 18px; padding: 2%; margin-left: 10%">
+                <div class="fa fa-cube fa-lg"></div>
+                {{ wasp.waspmote_name }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+</div>
+</body>
+<!-- jQuery -->
+<script src="{% static 'js/jquery.js' %}"></script>
+<script src="{% static 'js/jquery-3.0.0.min.js' %}"></script>
+<script src="{% static 'js/jquery-ui.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/jquery.canvasjs.min.js' %}"></script>
+<script src="{% static 'js/knockout-3.4.0.js' %}"></script>
+<!-- Bootstrap Core JavaScript -->
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<!-- Metis Menu Plugin JavaScript -->
+<script src="{% static 'js/metisMenu.min.js' %}"></script>
+<!-- Morris Charts JavaScript -->
+<script src="{% static 'js/raphael-min.js' %}"></script>
+<!-- Custom Theme JavaScript -->
+<script src="{% static 'js/perfil.js' %}"></script>
+</html>
