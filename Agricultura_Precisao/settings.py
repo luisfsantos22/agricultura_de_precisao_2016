@@ -78,7 +78,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'agridb',
-        'USER': 'agriprec',
+        'USER': 'agriluis',
         'PASSWORD': 'Passw0rd',
         'HOST': '192.168.160.119',
         'PORT': '5432',

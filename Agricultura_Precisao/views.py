@@ -23,6 +23,21 @@ def login(request):
     return render(request, 'login.html')
 
 
+def perfil(request):
+    id = User.objects.get(iduser=request.session['userID']).iduser
+    username = User.objects.get(iduser=request.session['userID']).username
+    password = User.objects.get(iduser=request.session['userID']).password
+    name = User.objects.get(iduser=request.session['userID']).name
+    country = User.objects.get(iduser=request.session['userID']).country
+    city = User.objects.get(iduser=request.session['userID']).city
+    mail = User.objects.get(iduser=request.session['userID']).mail
+    phone = User.objects.get(iduser=request.session['userID']).phone
+    appk = Appkey.objects.filter(userid=request.session['userID'])
+    context = {'appk': appk, 'id': id, 'username': username, 'name': name, 'password': password, 'country': country,
+               'city': city, 'mail': mail, 'phone': phone}
+    return render(request, 'Perfil.html', context)
+
+
 def alert(request):
     alerts = []
     waspmotealert = []
@@ -43,7 +58,6 @@ def agricprecisao(request):
     appkeyid = request.GET.get('appId')
     waspmote_info = Waspmote.objects.filter(appkeyid=appkeyid)
     aux = None
-    auxbatery = None
     flag = False
     array = dict()
 
@@ -62,9 +76,8 @@ def agricprecisao(request):
         array[wasp.waspmoteid] = aux
         aux = None
         flag = False
-    battery = Sensorval.objects.filter(sensor_fk=6).last()
     context = {'waspmote_info': waspmote_info,
-               'array': array, 'battery': battery}
+               'array': array}
     return render(request, 'AgriculturaPrecisao.html', context)
 
 
@@ -91,10 +104,6 @@ def get_1000values(request):
             aux_list = re.findall('\d+', incoming_json)  # Buscar o id do sensor
             sensor_id = int(
                 ''.join(map(str, aux_list)))  # O id do sensor vem numa lista, isto serve para o meter num int
-            #LAST 30 DAYS
-            #temp = date.today() - timedelta(days=30)
-            #valuesmonth = Sensorval.objects.filter(sensor_fk=sensor_id, timestamp__gte=temp)
-            # LAST 30 DAYS
             valuesmonth = Sensorval.objects.filter(sensor_fk=sensor_id)[::-1][:1000]
             datamonth = serializers.serialize("json", valuesmonth)
             return HttpResponse(datamonth, content_type="application/json")
@@ -164,13 +173,14 @@ def get_typesensor(request):
 def validate_login(request):
     if request.method == 'POST':
         username = str(request.POST['username'])
+        print(username)
         pwd = str(request.POST['password'])
-        user = User.objects.get(name=username, password=pwd)
+        user = User.objects.get(username=username, password=pwd)
         if user is None:
             return render(request, 'index.html')
         else:
             request.session['userID'] = user.iduser
-            request.session['username'] = user.name
+            request.session['username'] = user.username
             url = reverse('appkeys', args=())
             return HttpResponseRedirect(url)
 

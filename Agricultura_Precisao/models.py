@@ -48,6 +48,7 @@ class Sensor(models.Model):
     typesensorid = models.ForeignKey('Typesensor', models.DO_NOTHING, db_column='typeSensorId')  # Field name made lowercase.
     status = models.IntegerField()
 
+
     class Meta:
         managed = False
         db_table = 'sensor'
@@ -92,8 +93,13 @@ class Typesensor(models.Model):
 
 class User(models.Model):
     iduser = models.AutoField(db_column='idUser', primary_key=True)  # Field name made lowercase.
-    name = models.CharField(max_length=45)
+    username = models.CharField(max_length=40)
     password = models.CharField(max_length=40)
+    name = models.CharField(max_length=45)
+    mail = models.CharField(max_length=40)
+    country = models.CharField(max_length=40)
+    city = models.CharField(max_length=40)
+    phone = models.IntegerField()
     reference = models.IntegerField()
 
     class Meta:
@@ -107,6 +113,7 @@ class Waspmote(models.Model):
     appkeyid = models.ForeignKey(Appkey, models.DO_NOTHING, db_column='appKeyId')  # Field name made lowercase.
     idtype = models.ForeignKey(Communicationtype, models.DO_NOTHING, db_column='idType')  # Field name made lowercase.
     waspmote_name = models.CharField(max_length=20)
+    waspbatlvl = models.IntegerField()
 
     class Meta:
         managed = False
