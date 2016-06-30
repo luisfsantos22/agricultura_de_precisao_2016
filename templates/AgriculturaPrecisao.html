@@ -23,19 +23,11 @@
 
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
 
-
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#nav-includedContent').load('{% url 'navbar' %}');
-        });
-    </script>
-
 </head>
-<body onload="startTime()">
-
+<body>
 <div id="includedContent"></div>
-
-<div id="appk" style=" display: block">
+<div id="menuPrincipal"></div>
+<div id="appk" style="display: block">
     <div class="appkeys col-md-3" id="{{ request.session.app_key }}">
         {% for wasp in waspmote_info %}
             <div class=".col-md-4" style="margin-top: -20px; margin-bottom: 50px">
@@ -68,7 +60,7 @@
                             <div style="margin-top: 2%">Estado : Bom</div>
                         {% endif %}
                     {% endfor %}
-                    <div style="margin-top: 3%; font-size: 125%">Bateria : {{ battery.value }}%</div>
+                    <div style="margin-top: 3%; font-size: 125%">Bateria : {{ wasp.waspbatlvl }}%</div>
                 </div>
             </div>
         </div>
@@ -108,54 +100,7 @@
 </div>
 <!--END OF WASPS-->
 
-<!--BEGIN OF SENSORVIEW-->
-<div id="sensorDiv" class="sensorDivCss col-md-3 ">
-    <div class="panel-footer panel-heading">
-        <div style="text-align: center; font-size: 30px; color: #2b2b2b">Sensores</div>
-        <div class="line-separator"></div>
-        <div style="margin-top: 5%">
-            {% for wasp in waspmote_info %}
-                <!--experiment-->
-                <a href="#" data-toggle="collapse" data-target="#sensor{{ sensor.sensorid }}">
-                    {% for sensor in wasp.sensor_set.all %}
-                        <div class="listSens" id="sensor{{ sensor.sensorid }}">
-                            <a href="#" id="temp" style="color: #2b2b2b; font-weight: bold;">
-                                <p>{{ sensor.typesensorid.typesensorname }}
-                                    <span class="pull-right"><i class="fa fa-arrow-circle-down"></i></span></p></a>
-                        </div>
-                        </a>
-                    {% endfor %}
-                <!--end of experiment-->
-
-                {% for sensor in wasp.sensor_set.all %}
-                    <div id="sensor{{ sensor.sensorid }}" class="collapse" style="margin-top: 3%">
-                        {% if sensor.status == 0 %}
-                            <div class="sensor" id="sensor{{ sensor.sensorid }}">
-                                <a href="#" style="color: #c9302c"><p>{{ sensor.typesensorid.typesensorname }}
-                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span></p></a>
-                            </div>
-                        {% endif %}
-                        {% if sensor.status == 1 %}
-                            <div class="sensor" id="sensor{{ sensor.sensorid }}">
-                                <a href="#" style="color: #eea236"><p>{{ sensor.typesensorid.typesensorname }}
-                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span></p></a>
-                            </div>
-                        {% endif %}
-                        {% if sensor.status == 2 %}
-                            <div class="sensor" id="sensor{{ sensor.sensorid }}">
-                                <a href="#" style="color: #669055"><p>{{ sensor.typesensorid.typesensorname }}
-                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span></p></a>
-                            </div>
-                        {% endif %}
-                    </div>
-                {% endfor %}
-            {% endfor %}
-        </div>
-    </div>
-</div>
-<!--END OF SENSORVIEW-->
-
-<div class="back_dash">
+<div class="back_dash" id="back_dash">
     <h2>
         <div style="text-align: center; padding-top: 1%">Dashboard</div>
     </h2>
@@ -214,10 +159,6 @@
                         class="ui-button-text ui-button timestamp btn btn-default groupAll"
                         id="customInterval" disabled>Intervalo Específico
                 </button>
-                <button style="height: 40px; padding: 1%"
-                        class="ui-button-text ui-button btn btn-default"
-                        id="realTimeButton" disabled>Tempo Real
-                </button>
             </div>
         </div>
         <!--END BUTTONS TOOLBAR -->
@@ -272,8 +213,7 @@
         <!--end graphic soil temp-->
     </div>
 </div>
-
-
+</body>
 <!-- jQuery -->
 <script src="{% static 'js/jquery.js' %}"></script>
 <script src="{% static 'js/jquery-ui.js' %}"></script>
@@ -290,38 +230,23 @@
 
 <script src="{% static 'js/dashboard.js' %}"></script>
 
-<script src="{% static 'js/navbar.js' %}"></script>
-
 <script src="{% static 'js/slideImageDash.js' %}"></script>
 <script src="{% static 'js/loading.js' %}"></script>
-<script src="{% static 'js/hours.js' %}"></script>
 
+<script src="{% static 'js/hours.js' %}"></script>
+<script src="{% static 'js/batterylvl.js' %}"></script>
 
 <script src="{% static 'js/mqttws31.js' %}" type="text/javascript"></script>
 <script src="{% static 'js/realtime.js' %}" type="text/javascript"></script>
+<script src="{% static 'js/perfil.js' %}" type="text/javascript"></script>
 
 <script src="http://code.highcharts.com/stock/highstock.js"></script>
 <script src="http://code.highcharts.com/stock/modules/exporting.js"></script>
 
 <script>
-    $(document).ready($(function () {
-        $("#lastDay").button({
-            text: true
-        });
-        $("#lastMonth").button({
-            text: true
-        });
-        $("#customDay").button({
-            text: true
-        });
-        $("#customMonth").button({
-            text: true
-        });
-        $("#customInterval").button({
-            text: true
-        });
-        $("#repeat").buttonset();
-    }));
+    $(document).ready(function () {
+        $("#includedContent").load("{% url 'navbar' %}");
+    });
 </script>
-</body>
+
 </html>

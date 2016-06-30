@@ -28,7 +28,7 @@
 <div id="includedContent"></div>
 
 <!--USAR O QUE ESTA PARA BAIXO-->
-<div class="container-fluid">
+<div class="container-fluid" style="display: inline">
     <div class="row">
         {% for app in appkey_info %}
             <div class="appkeysboard" style="margin-top: 1%">
@@ -39,7 +39,7 @@
 
                 </div>
                 <div class="col-md-2" style="margin-left: 1%">
-                    <h2 style="text-align: center; margin-top: 20%">AppKey <p
+                    <h2 style="text-align: center; margin-top: 30%">AppKey <p
                             style="padding: 3%; font-weight: bold;">{{ app.appkey }}</p></h2>
                 </div>
             <div class="col-md-3" style="margin-right: -30px">
@@ -48,7 +48,7 @@
                         <table id="tablegen" style="width: 500px;">
                             {% for wasps in app.waspmote_set.all %}
                                     <tr>
-                                        <td><h4>{{ wasps.waspmote_name }}</h4></td>
+                                        <td><h5>{{ wasps.waspmote_name }}</h5></td>
                                     </tr>
                             {% endfor %}
                         </table>
@@ -60,8 +60,8 @@
                         <table id="tablegen" style="width: 500px;">
                             {% for wasps in app.waspmote_set.all %}
                                 {% for sens in wasps.sensor_set.all %}
-                                    <tr class="col-md-6">
-                                        <td><h4>{{ sens.typesensorid.typesensorname }}</h4></td>
+                                    <tr class="col-md-4">
+                                        <td><h5>{{ sens.typesensorid.typesensorname }}</h5></td>
                                     </tr>
                                     {# <div class="tabletwo">{{ sens.typesensorid.typesensorname }}</div>#}
 
@@ -124,8 +124,6 @@
 <script src="{% static 'js/sb-admin-2.js' %}"></script>
 
 <script src="{% static 'js/dashboard.js' %}"></script>
-
-<script src="{% static 'js/navbar.js' %}"></script>
 
 <script>
     $(document).ready(function () {
