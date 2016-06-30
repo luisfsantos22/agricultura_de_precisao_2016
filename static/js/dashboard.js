@@ -41,6 +41,7 @@ $(document).ready(function () {
 
     });
 
+
     $('#tableButton').click(function () {
         $('#date_pick').hide();
         $('#last100').attr("disabled", false);
