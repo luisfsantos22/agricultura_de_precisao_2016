@@ -41,7 +41,10 @@
                                                                             <li>
                                                                                 <div id="sensor{{ sensor.sensorid }}">
                                                                                     <input type="checkbox"
-                                                                                           class="checkbox-inline"> {{ sensor.typesensorid.typesensorname }}
+                                                                                           value="{{ sensor.sensorid }}"
+                                                                                           name="checkvalue"
+                                                                                           class="checkbox-inline checkboxvalues">
+                                                                                    {{ sensor.typesensorid.typesensorname }}
                                                                                 </div>
                                                                             </li>
                                                                         {% endif %}
@@ -76,7 +79,6 @@
 
 <script src="{% static 'js/jquery.js' %}" type="text/javascript"></script>
 <script src="{% static 'js/bootstrap.min.js' %}"></script>
-<script src="{% static 'js/navbar.js' %}"></script>
 <script src="{% static 'js/mqttws31.js' %}" type="text/javascript"></script>
 <script src="{% static 'js/realtime.js' %}" type="text/javascript"></script>
 
