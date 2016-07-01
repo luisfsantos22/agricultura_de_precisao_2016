@@ -167,7 +167,8 @@ def get_typesensor(request):
         if request.method == 'GET':
             sensor_id = request.GET['sensorid']
             typesensor = Typesensor.objects.get(sensor__sensorid=sensor_id).typesensorname
-            jsonResponse = json.dumps({'typesensor': typesensor})
+            typesensorlib = Typesensor.objects.get(sensor__sensorid=sensor_id).sensornamelib
+            jsonResponse = json.dumps({'typesensor': typesensor, 'typesensorlib': typesensorlib})
             return HttpResponse(jsonResponse, content_type="application/json")
     else:
         return HttpResponse(json.dumps({"error": "error"}),

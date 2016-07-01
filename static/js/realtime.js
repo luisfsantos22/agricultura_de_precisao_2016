@@ -1,34 +1,27 @@
-/*
- by @bordignon on twitter
- Feb 2014
- Simple example of plotting live mqtt/websockets data using highcharts.
- public broker and topic you can use for testing.
- var MQTTbroker = 'broker.mqttdashboard.com';
- var MQTTport = 8000;
- var MQTTsubTopic = 'dcsquare/cubes/#'; //works with wildcard # and + topics dynamically now
- */
-//settings BEGIN
-//settings END
-
 var chart;
-var typesensorname;
+var typesensorlib;
 $("#realTimeButton").click(function () {
     //var waspmoteId = jsonData.waspmoteId.replace(/^\D+/g, '');
     //var sensorId = jsonData.sensorId.replace(/^\D+/g, '');
     //var app_key = jsonData.app_key;
+
+    var sensorIds = getcheckedValues();
+    //alert(sensorIds);
+    var user = 3899;
+    var waspmoteId = '+';
+    var sensorId = '+';
+    var app_key = '+';
     //typesensorReader(sensorId);
     var MQTTbroker = '192.168.160.98';
     var MQTTport = 3000;
-    var MQTTsubTopic = 'Final/2312341/#/Sensor/#/#'; //works with wildcard # and + topics dynamically now
-    //var MQTTsubTopic = 'Final/' + app_key + '/' + waspmoteId + '/Sensor/' + sensorId + '/#'; //works with wildcard # and + topics dynamically now
+    var MQTTsubTopic = 'Final/' + user + '/' + app_key + '/' + waspmoteId + '/Sensor/' + sensorId; //works with wildcard # and + topics dynamically now
 //mqtt broker
     var client = new Paho.MQTT.Client(MQTTbroker, MQTTport,
         "myclientid_" + parseInt(Math.random() * 100, 10));
 
     var dataTopics = [];
-//connect to broker is at the bottom of the init() function !!!!
 
-//mqtt connecton options including the mqtt broker subscriptions
+    //mqtt connecton options including the mqtt broker subscriptions
     var options = {
         userName: "Agri_prec",
         password: "1530a822cb627f42664f22e224a32ae8d6f9fdafd6879766a3d8fe362c705c5f",
@@ -61,35 +54,39 @@ $("#realTimeButton").click(function () {
 
     //what is done when a message arrives from the broker
     function onMessageArrived(message) {
-        console.log(message.destinationName, '', message.payloadString);
-        //check if it is a new topic, if not add it to the array
-        if (dataTopics.indexOf(message.destinationName) < 0) {
 
-            dataTopics.push(message.destinationName); //add new topic to array
-            var y = dataTopics.indexOf(message.destinationName); //get the index no
+        var res = message.destinationName.split("/");
+        var sensorId = res[res.length - 1];
+        var exists = $.inArray(sensorId, sensorIds);
+        if (exists != -1) {
+            var typeSensorName = typesensorReader(sensorId);
+            //alert(typeSensorName);
+            if (dataTopics.indexOf(message.destinationName) < 0) {
+                dataTopics.push(message.destinationName); //add new topic to array
+                var y = dataTopics.indexOf(message.destinationName); //get the index no
+                //create new data series for the chart
+                var newseries = {
+                    id: y,
+                    name: typeSensorName,
+                    data: []
+                };
+                chart.addSeries(newseries); //add the series
 
-            //create new data series for the chart
-            var newseries = {
-                id: y,
-                name: typesensorname,
-                data: []
-            };
-            chart.addSeries(newseries); //add the series
-
-        }
+            }
 
 
-        var y = dataTopics.indexOf(message.destinationName); //get the index no of the topic from the array
-        var x = JSON.parse(message.payloadString);
-        var myEpoch = new Date().getTime(); //get current epoch time
-        var thenum = Object.keys(x).map(function (_) {
-            return x[_];
-        });
-        var thenum1 = parseFloat(thenum[1]);
-        var plotMqtt = [myEpoch, Number(thenum1)]; //create the array
-        if (isNumber(thenum1)) { //check if it is a real number and not text
-            console.log('is a propper number, will send to chart.');
-            plot(plotMqtt, y);	//send it to the plot function
+            var y = dataTopics.indexOf(message.destinationName); //get the index no of the topic from the array
+            var x = JSON.parse(message.payloadString);
+            var myEpoch = new Date().getTime(); //get current epoch time
+            var thenum = Object.keys(x).map(function (_) {
+                return x[_];
+            });
+            var thenum1 = parseFloat(thenum[1]);
+            var plotMqtt = [myEpoch, Number(thenum1)]; //create the array
+            if (isNumber(thenum1)) { //check if it is a real number and not text
+                console.log('is a propper number, will send to chart.');
+                plot(plotMqtt, y);	//send it to the plot function
+            }
         }
     }
 
@@ -100,13 +97,11 @@ $("#realTimeButton").click(function () {
 
     //function that is called once the document has loaded
     function init() {
-        //i find i have to set this to false if i have trouble with timezones.
         Highcharts.setOptions({
             global: {
                 useUTC: false
             }
         });
-        // Connect to MQTT broker
         client.connect(options);
     }
 
@@ -147,28 +142,42 @@ $("#realTimeButton").click(function () {
                 minPadding: 0.2,
                 maxPadding: 0.2,
                 title: {
-                    text: 'Sensor value',
+                    text: 'SensorVal',
                     margin: 30
                 }
             },
             series: []
         });
     }
+
     function typesensorReader(sensorid) {
-    jsonData = {sensorid: sensorid};
-    $.ajax({
-        url: "get_typesensor/",
-        type: "GET",
-        dataType: 'json',
-        contentType: 'application/json; charset=UTF-8',
-        data: jsonData,
-        success: function (jsonResponse) {
-            typesensorname = jsonResponse['typesensor'];
-        },
-        error: function () {
-            console.log("erro");
-        }
-    });
-}
+        jsonData = {sensorid: sensorid};
+        var result = "";
+        $.ajax({
+            url: "get_typesensor/",
+            async: false,
+            type: "GET",
+            dataType: 'json',
+            contentType: 'application/json; charset=UTF-8',
+            data: jsonData,
+            success: function (jsonResponse) {
+                result = JSON.stringify(jsonResponse['typesensor']);
+
+            },
+            error: function () {
+                result = "error";
+            }
+        });
+        return result;
+    }
+
+    function getcheckedValues() {
+        var favorite = [];
+        $.each($("input[name='checkvalue']:checked"), function () {
+            favorite.push($(this).val());
+        });
+        return favorite;
+    }
 });
+
 
