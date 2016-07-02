@@ -200,7 +200,7 @@ def appkeys(request):
 
 def logout(request):
     request.session.clear()
-    render(request, index)
+    return render(request, 'index.html')
 
 
 def navbar(request):
