@@ -128,9 +128,9 @@
                         {% csrf_token %}
                         <fieldset>
                             <label for="emailInput">Utilizador</label>
-                            <input type="text" id="username" class="form-control loginInput">
+                            <input type="text" id="username" name="username" class="form-control loginInput">
                             <label for="passInput">Password</label>
-                            <input type="password" id="password" class="form-control loginInput">
+                            <input type="password" id="password" name="password" class="form-control loginInput">
                         </fieldset>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary" id="loginBtn">Entrar</button>
