@@ -177,9 +177,10 @@ def get_typesensor(request):
 
 def validate_login(request):
     if request.method == 'POST':
-        username = str(request.POST['username'])
+        username = str(request.POST.get('username'))
         print(username)
-        pwd = str(request.POST['password'])
+        pwd = str(request.POST.get('password'))
+        print(pwd)
         user = User.objects.get(username=username, password=pwd)
         if user is None:
             return render(request, 'index.html')

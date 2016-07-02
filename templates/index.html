@@ -41,9 +41,7 @@
 
 
     <script type="text/javascript" src="{% static 'popup/js/jquery-1.11.0.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'popup/js/jquery.leanModal.min.js' %}"></script>
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"/>
-    <link type="text/css" rel="stylesheet" href="{% static 'popup/css/modal_style.css' %}"/>
 
 </head>
 
@@ -72,7 +70,7 @@
                     <a class="page-scroll" href="#about">Sobre</a>
                 </li>
                 <li>
-                    <a id="modal_trigger" href="#modal" class="">Login</a>
+                    <a id="modal_trigger" type="button" data-toggle="modal" data-target="#myModal">Login</a>
                 </li>
             </ul>
         </div>
@@ -115,73 +113,32 @@
 </section>
 
 
-<div class="container">
-    <a id="modal_trigger" href="#modal" class="btn">Login</a>
-
-    <div id="modal" class="popupContainer" style="display:none;">
-        <header class="popupHeader">
-            <span class="header_title">Login</span>
-            <span class="modal_close"><i class="fa fa-times"></i></span>
-        </header>
-
-        <section class="popupBody">
-            <!-- Username & Password Login form -->
-            <div class="user_login">
-                <form role="form" action="{% url 'validate_login' %}" method="POST">
-                    {% csrf_token %}
-                    <label for="username">Utilizador</label>
-                    <input id="username" name="username" type="text"/>
-                    <br/>
-
-                    <label for="password">Password</label>
-                    <input id="password" name="password" type="password"/>
-                    <br/>
-
-                    <div class="checkbox">
-                        <input id="remember" type="checkbox"/>
-                        <label for="remember">Lembrar-me neste computador</label>
-                    </div>
-
-                    <div class="action_btns">
-                        <div class="one_half"><a href="#" class="btn btn_red register_btn">
-                            Registar</a></div>
-                        <div class="one_half last">
-                            <input type="submit" id="submit" class="btn btn_green" value="Login">
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Entrar</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <form method="post" action="{% url 'validate_login' %}">
+                        {% csrf_token %}
+                        <fieldset>
+                            <label for="emailInput">Utilizador</label>
+                            <input type="text" id="username" name="username" class="form-control loginInput">
+                            <label for="passInput">Password</label>
+                            <input type="password" id="password" name="password" class="form-control loginInput">
+                        </fieldset>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary" id="loginBtn">Entrar</button>
                         </div>
-                    </div>
-                </form>
-
-                <a href="#" class="forgot_password">Esqueceu-se da password?</a>
+                    </form>
+                </div>
             </div>
-
-            <!-- Register Form -->
-            <div class="user_register">
-                <form>
-
-                    <label>Utilizador</label>
-                    <input type="text"/>
-                    <br/>
-
-                    <label>Endereçço de Email</label>
-                    <input type="email"/>
-                    <br/>
-
-                    <label>Nome Completo</label>
-                    <input type="text"/>
-                    <br/>
-
-                    <label>Password</label>
-                    <input type="password"/>
-                    <br/>
-                    <div class="action_btns">
-                        <div class="one_half"><a href="#" class="btn btn_back"><i
-                                class="fa fa-angle-double-left"></i>
-                            Voltar</a></div>
-                        <div class="one_half last"><a href="#" class="btn btn_red">Registar</a></div>
-                    </div>
-                </form>
-            </div>
-        </section>
+        </div>
     </div>
 </div>
 
@@ -193,29 +150,4 @@
     </div>
 </footer>
 </body>
-<script type="text/javascript">
-    $("#modal_trigger").leanModal({top: 200, overlay: 0.6, closeButton: ".modal_close"});
-
-    $(function () {
-        // Calling Login Form
-        $("#modal_trigger").click(function () {
-            $(".user_login").show();
-            return false;
-        });
-
-        $(".register_btn").click(function () {
-            $(".user_login").hide();
-            $(".user_register").show();
-            $(".header_title").text('Register');
-            return false;
-        });
-        $(".btn_back").click(function () {
-            $(".user_login").show();
-            $(".user_register").hide();
-            $(".header_title").text('Login');
-            return false;
-        });
-
-    })
-</script>
 </html>
