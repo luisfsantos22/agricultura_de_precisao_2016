@@ -34,6 +34,7 @@ urlpatterns = [
     url(r'^logout', views.logout, name='logout'),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest-framework')),
     url(r'^Perfil', views.perfil, name='perfil'),
+    url(r'^update_profile$', views.update_profile, name='update_profile'),
     url(r'^realtime', views.realtime, name='realtime'),
     url(r'^get_100values', views.get_100values, name='get_100values'),
     url(r'^get_1000values', views.get_1000values, name='get_1000values'),
@@ -45,6 +46,8 @@ urlpatterns = [
     url(r'^navbar', views.navbar, name='navbar'),
     url(r'^config', views.config, name='config'),
     url(r'^test', views.test, name='test'),
+    url(r'^validate_password$', views.validate_password, name='validate_password'),
+
     # url(r'collapse/(?P<collapseid>[0-9])', views.collapse, name='collapse1'),
 
 ]

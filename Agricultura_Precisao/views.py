@@ -9,6 +9,7 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework import viewsets
 
 from Agricultura_Precisao.models import Waspmote, User, Appkey, Sensorval, Typesensor, Sensor, Alert
@@ -21,6 +22,43 @@ def index(request):
 
 def login(request):
     return render(request, 'login.html')
+
+
+@csrf_exempt
+def update_profile(request):
+    if request.is_ajax():
+        if request.method == 'POST':
+            reference = request.POST.get('key')
+            value = request.POST.get('value')
+            username = request.POST.get('user')
+            user = User.objects.get(username=username);
+            if reference == 'password':
+                user.password = value
+            elif reference == 'mail':
+                user.mail = value
+            elif reference == 'country':
+                user.country = value
+            elif reference == 'city':
+                user.city = value
+            elif reference == 'phone':
+                user.phone = value
+            else:
+                return HttpResponse("error")
+            user.save()
+    return HttpResponse("success")
+
+
+@csrf_exempt
+def validate_password(request):
+    if request.is_ajax():
+        if request.method == 'POST':
+            username = request.POST.get('user')
+            pwd = request.POST.get('password')
+            user = User.objects.get(username=username)
+            if user.password == pwd:
+                return HttpResponse(status=200)
+            else:
+                return HttpResponse(status=400)
 
 
 def perfil(request):
