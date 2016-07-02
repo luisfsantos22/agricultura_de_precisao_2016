@@ -22,71 +22,128 @@
     <link href="{% static 'css/jquery-ui.css' %}" rel="stylesheet">
 
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"/>
 </head>
 <body>
-<div class="row">
-    <div class="col-md-10"><h1 style="font-size: 50px; margin-left: 2%">Perfil de {{ username }}</h1></div>
-    <div id="close" class="col-md-2" style="text-align: right; padding-right: 4%; padding-top: 1% ">
-        <a href="#" class="fa fa-times fa-4x" style="color: #2b2b2b; text-decoration: none" id="closePerfil"></a>
-    </div>
-</div>
-<div class="row col-md-7">
-    <div class="row container col-md-8" style="padding: 1%">
-        <div class="col-md-4" style="font-size: 25px;">Nome :</div>
-        <div class="col-md-6" style="font-size: 25px;"> {{ name }}</div>
-    </div>
-    <div class="row container col-md-8" style="padding: 1%">
-        <div class="col-md-4" style="font-size: 25px;">Username :</div>
-        <div class="col-md-6" style="font-size: 25px;"> {{ username }}</div>
-    </div>
-    <div class="row container col-md-8" style="padding: 1%">
-        <div class="col-md-4" style="font-size: 25px;">Password :</div>
-        <div class="col-md-6" style="font-size: 25px;"> {{ password }}</div>
-        <div class="col-md-2">
-            <button class="btn btn-default">Editar</button>
+<div class="container" style="background-color: #FFFFFF; padding: 2%">
+    <div class="row">
+        <div class="col-md-10"><h1 style="font-size: 50px; margin-left: 2%" class="username_h1" id="{{ username }}">
+            Perfil
+            de {{ username }}</h1></div>
+        <div id="close" class="col-md-2" style="text-align: right; padding-right: 4%; padding-top: 1% ">
+            <a href="#" class="fa fa-times fa-4x" style="color: #2b2b2b; text-decoration: none" id="closePerfil"></a>
         </div>
     </div>
-    <div class="row container col-md-8" style="padding: 1%">
-        <div class="col-md-4" style="font-size: 25px;">País :</div>
-        <div class="col-md-6" style="font-size: 25px;"> {{ country }}</div>
-        <div class="col-md-2">
-            <button class="btn btn-default">Editar</button>
+    <div class="row col-md-7">
+        <div class="row container col-md-8" style="padding: 1%; margin-bottom: 2%">
+            <div class="col-md-4" style="font-size: 20px;">Nome :</div>
+            <div class="col-md-6" style="font-size: 20px;"> {{ name }}</div>
         </div>
-    </div>
-    <div class="row container col-md-8" style="padding: 1%">
-        <div class="col-md-4" style="font-size: 25px;">Cidade :</div>
-        <div class="col-md-6" style="font-size: 25px;"> {{ city }}</div>
-        <div class="col-md-2">
-            <button class="btn btn-default">Editar</button>
+        <div class="row container col-md-8" style="padding: 1%; margin-bottom: 2%">
+            <div class="col-md-4" style="font-size: 20px;">Username :</div>
+            <div class="col-md-6" style="font-size: 20px;"> {{ username }}</div>
         </div>
-    </div>
-    <div class="row container col-md-8" style="padding: 1%">
-        <div class="col-md-4" style="font-size: 25px;">Email :</div>
-        <div class="col-md-6" style="font-size: 25px;"> {{ mail }}</div>
-    </div>
-    <div class="row container col-md-8" style="padding: 1%">
-        <div class="col-md-4" style="font-size: 25px;">Telemóvel :</div>
-        <div class="col-md-6" style="font-size: 25px;"> {{ phone }}</div>
-        <div class="col-md-2">
-            <button class="btn btn-default">Editar</button>
-        </div>
-    </div>
-</div>
-<div class="row col-md-4">
-    <div style="font-size: 35px; padding: 2%; text-align: center">Appkeys</div>
-    {% for app in appk %}
-        <div class="row" style="font-size: 25px; padding: 5%">
-            <div class="fa fa-chevron-right"></div>
-            {{ app.appkey }}
-        </div>
-        {% for wasp in app.waspmote_set.all %}
-            <div style="font-size: 18px; padding: 2%; margin-left: 10%">
-                <div class="fa fa-cube fa-lg"></div>
-                {{ wasp.waspmote_name }}
+        <div class="row container col-md-8" style="padding: 1%">
+            <div class="col-md-4" style="font-size: 20px;">Password :</div>
+            <div class="col-md-6" style="font-size: 20px;">**********</div>
+            <div class="col-md-2">
+                <button id="password" class="btn btn-default updateBtn" data-toggle="modal" data-target="#myModal_pass">
+                    Editar
+                </button>
             </div>
+        </div>
+        <div class="row container col-md-8" style="padding: 1%">
+            <div class="col-md-4" style="font-size: 20px;">País :</div>
+            <div class="col-md-6" style="font-size: 20px;"> {{ country }}</div>
+            <div class="col-md-2">
+                <button id="country" class="btn btn-default updateBtn" data-toggle="modal" data-target="#myModal">
+                    Editar
+                </button>
+            </div>
+        </div>
+        <div class="row container col-md-8" style="padding: 1%">
+            <div class="col-md-4" style="font-size: 20px;">Cidade :</div>
+            <div class="col-md-6" style="font-size: 20px;"> {{ city }}</div>
+            <div class="col-md-2">
+                <button id="city" class="btn btn-default updateBtn" data-toggle="modal" data-target="#myModal">Editar
+                </button>
+            </div>
+        </div>
+        <div class="row container col-md-8" style="padding: 1%">
+            <div class="col-md-4" style="font-size: 20px;">Email :</div>
+            <div class="col-md-6" style="font-size: 20px;"> {{ mail }}</div>
+            <div class="col-md-2">
+                <button id="mail" class="btn btn-default updateBtn" data-toggle="modal" data-target="#myModal">Editar
+                </button>
+            </div>
+        </div>
+        <div class="row container col-md-8" style="padding: 1%">
+            <div class="col-md-4" style="font-size: 20px;">Telemóvel :</div>
+            <div class="col-md-6" style="font-size: 20px;"> {{ phone }}</div>
+            <div class="col-md-2">
+                <button id="phone" class="btn btn-default updateBtn" data-toggle="modal" data-target="#myModal">Editar
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="row col-md-4">
+        <div style="font-size: 35px; padding: 2%; text-align: center">Appkeys</div>
+        {% for app in appk %}
+            <div class="row" style="font-size: 25px; padding: 5%">
+                <div class="fa fa-chevron-right"></div>
+                {{ app.appkey }}
+            </div>
+            {% for wasp in app.waspmote_set.all %}
+                <div style="font-size: 18px; padding: 2%; margin-left: 10%">
+                    <div class="fa fa-cube fa-lg"></div>
+                    {{ wasp.waspmote_name }}
+                </div>
+            {% endfor %}
         {% endfor %}
-    {% endfor %}
+    </div>
 </div>
+<!-- Password Modal -->
+<div class="modal fade" id="myModal_pass" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="form-group">
+                    <fieldset>
+
+                        <label for="actualPassInput">Password Atual</label>
+                        <input type="password" id="actualPassInput" class="form-control">
+                        <label for="new_passInput">Nova Password</label>
+                        <input type="password" class="form-control" id="newPassInput">
+                    </fieldset>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary saveBtn" id="passInput">Atualizar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Not Password Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="form-group">
+                    <fieldset>
+                        <label for="new_input">Novo Valor</label>
+                        <input type="text" class="form-control" id="newInput">
+                    </fieldset>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary saveBtn" id="normalInput">Atualizar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 </body>
 <!-- jQuery -->
 <script src="{% static 'js/jquery.js' %}"></script>
@@ -102,4 +159,6 @@
 <script src="{% static 'js/raphael-min.js' %}"></script>
 <!-- Custom Theme JavaScript -->
 <script src="{% static 'js/perfil.js' %}"></script>
+<!-- Plugin JavaScript -->
+<script src="{% static 'js/jquery.easing.min.js' %}"></script>
 </html>
