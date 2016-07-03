@@ -22,10 +22,14 @@
     <link href="{% static 'css/jquery-ui.css' %}" rel="stylesheet">
 
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
-
+    <script src="{% static 'js/jquery.js' %}"></script>
 </head>
 <body>
-<div id="includedContent"></div>
+<div id="includedContent">
+    <script>
+        $("#includedContent").load("{% url 'navbar' %}");
+    </script>
+</div>
 
 <!--USAR O QUE ESTA PARA BAIXO-->
 <div class="container-fluid" style="display: inline">
@@ -42,14 +46,14 @@
                     <h2 style="text-align: center; margin-top: 30%">AppKey <p
                             style="padding: 3%; font-weight: bold;">{{ app.appkey }}</p></h2>
                 </div>
-            <div class="col-md-3" style="margin-right: -30px">
+                <div class="col-md-3" style="margin-right: -30px">
                     <div class="row">
                         <div style="margin-left: 70px"><h2>Waspmotes</h2></div>
                         <table id="tablegen" style="width: 500px;">
                             {% for wasps in app.waspmote_set.all %}
-                                    <tr>
-                                        <td><h5>{{ wasps.waspmote_name }}</h5></td>
-                                    </tr>
+                                <tr>
+                                    <td><h5>{{ wasps.waspmote_name }}</h5></td>
+                                </tr>
                             {% endfor %}
                         </table>
                     </div>
@@ -108,7 +112,7 @@
 <script src="http://code.highcharts.com/stock/highstock.js"></script>
 <script src="http://code.highcharts.com/stock/modules/exporting.js"></script>
 <!-- jQuery -->
-<script src="{% static 'js/jquery.js' %}"></script>
+
 <script src="{% static 'js/jquery-ui.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/jquery.canvasjs.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/loading.js' %}"></script>
@@ -124,9 +128,5 @@
 
 <script src="{% static 'js/dashboard.js' %}"></script>
 
-<script>
-    $(document).ready(function () {
-        $("#includedContent").load("{% url 'navbar' %}");
-    });
-</script>
+
 </html>

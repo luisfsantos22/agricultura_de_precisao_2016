@@ -22,10 +22,16 @@
     <link href="{% static 'css/jquery-ui.css' %}" rel="stylesheet">
 
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
-
+    <script src="{% static 'js/jquery.js' %}"></script>
 </head>
 <body>
-<div id="includedContent"></div>
+<div id="includedContent">
+    <script>
+        $("#includedContent").load("{% url 'navbar' %}");
+    </script>
+</div>
+
+
 <div id="menuPrincipal"></div>
 <div id="appk" style="display: block">
     <div class="appkeys col-md-3" id="{{ request.session.app_key }}">
@@ -215,7 +221,7 @@
 </div>
 </body>
 <!-- jQuery -->
-<script src="{% static 'js/jquery.js' %}"></script>
+
 <script src="{% static 'js/jquery-ui.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/jquery.canvasjs.min.js' %}"></script>
 <script src="{% static 'js/knockout-3.4.0.js' %}"></script>
@@ -243,10 +249,5 @@
 <script src="http://code.highcharts.com/stock/highstock.js"></script>
 <script src="http://code.highcharts.com/stock/modules/exporting.js"></script>
 
-<script>
-    $(document).ready(function () {
-        $("#includedContent").load("{% url 'navbar' %}");
-    });
-</script>
 
 </html>

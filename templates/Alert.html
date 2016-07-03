@@ -22,10 +22,14 @@
     <link href="{% static 'css/jquery-ui.css' %}" rel="stylesheet">
 
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
-
+    <script src="{% static 'js/jquery.js' %}"></script>
 </head>
 <body>
-<div id="includedContent"></div>
+<div id="includedContent">
+    <script>
+        $("#includedContent").load("{% url 'navbar' %}");
+    </script>
+</div>
 <!-- /.panel -->
 <div class="panel panel-default">
     <div class="panel-heading">
@@ -69,10 +73,5 @@
     </div>
 </div>
 </body>
-<script src="{% static 'js/jquery.js' %}"></script>
-<script>
-    $(document).ready(function () {
-        $("#includedContent").load("{% url 'navbar' %}");
-    });
-</script>
+
 </html>
