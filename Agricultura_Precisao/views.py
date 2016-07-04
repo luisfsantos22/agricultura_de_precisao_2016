@@ -81,8 +81,8 @@ def alert(request):
     waspmotealert = []
 
     for app in Appkey.objects.filter(userid=request.session['userID']):
-        waspmote = Waspmote.objects.filter(waspmoteid=app.appkeyid)
-        waspmotealert += Waspmote.objects.filter(waspmoteid=app.appkeyid)
+        waspmote = Waspmote.objects.filter(appkeyid=app.appkeyid)
+        waspmotealert += Waspmote.objects.filter(appkeyid=app.appkeyid)
         for wasp in waspmote:
             sen = Sensor.objects.filter(waspmoteid=wasp.waspmoteid)
             for alertsSensores in sen:
@@ -142,10 +142,6 @@ def get_1000values(request):
             aux_list = re.findall('\d+', incoming_json)  # Buscar o id do sensor
             sensor_id = int(
                 ''.join(map(str, aux_list)))  # O id do sensor vem numa lista, isto serve para o meter num int
-            # LAST 30 DAYS
-            # temp = date.today() - timedelta(days=30)
-            # valuesmonth = Sensorval.objects.filter(sensor_fk=sensor_id, timestamp__gte=temp)
-            # LAST 30 DAYS
             valuesmonth = Sensorval.objects.filter(sensor_fk=sensor_id)[::-1][:1000]
             datamonth = serializers.serialize("json", valuesmonth)
             return HttpResponse(datamonth, content_type="application/json")
@@ -189,10 +185,8 @@ def get_customintervalvalues(request):
 
             for val in valuesall:
                 datac = val.timestamp.strftime('%Y-%m-%d')
-                print(datac)
                 if incoming_json2 <= datac <= incoming_json3:
                     array.append(val)
-            print(array)
             datavalues = serializers.serialize("json", array)
             return HttpResponse(datavalues, content_type="application/json")
     else:

@@ -39,35 +39,55 @@
     <div class="panel-body">
         <ul class="timeline">
             {% for alert in alerts %}
-                {% if alert.sensorfk.status == 0 %}
+                {% if alert.state == 0 %}
                     <li class="timeline-inverted">
-                    <div class="timeline-badge danger"><i class="fa fa-times"></i></div>
+                        <div class="timeline-badge danger"><i class="fa fa-times"></i></div>
+                        <div class="timeline-panel">
+                            <div class="timeline-heading">
+                                {% for wasp in waspmoteAlert %}
+                                    {% if wasp.waspmoteid == alert.sensorfk.waspmoteid.waspmoteid %}
+                                        <h3 class="timeline-title">{{ wasp.appkeyid.appkeyid }}</h3>
+                                        <h5 class="timeline-title">{{ wasp.waspmote_name }}</h5>
+                                        <p>
+                                            <small class="text-muted"><i
+                                                    class="fa fa-clock-o"></i>{{ alert.timestampalert }}
+                                            </small>
+                                        </p>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                            <div class="timeline-body">
+                                <p>Leitura: {{ alert.valuealert }}</p>
+                                <p>Sensor: {{ alert.sensorfk.typesensorid.typesensorname }}</p>
+                            </div>
+                        </div>
+                    </li>
                 {% endif %}
-            {% if alert.sensorfk.status == 1 %}
-                <li>
-                <div class="timeline-badge warning"><i class="fa fa-times"></i></div>
-            {% endif %}
+                {% if alert.state == 1 %}
+                    <li>
+                        <div class="timeline-badge warning"><i class="fa fa-times"></i></div>
 
-            <div class="timeline-panel">
-                <div class="timeline-heading">
-                    {% for wasp in waspmoteAlert %}
-                        {% if wasp.waspmoteid == alert.sensorfk.waspmoteid.waspmoteid %}
-                            <h3 class="timeline-title">{{ wasp.appkeyid.appkeyid }}</h3>
-                            <h5 class="timeline-title">{{ wasp.waspmote_name }}</h5>
-                            <p>
-                                <small class="text-muted"><i class="fa fa-clock-o"></i>{{ alert.timestampalert }}
-                                </small>
-                            </p>
-                        {% endif %}
-                    {% endfor %}
-                </div>
-                <div class="timeline-body">
-                    <p>Leitura: {{ alert.valuealert }}</p>
-                    <p>Sensor: {{ alert.sensorfk.typesensorid.typesensorname }}</p>
-                </div>
-            </div>
-
-            </li>
+                        <div class="timeline-panel">
+                            <div class="timeline-heading">
+                                {% for wasp in waspmoteAlert %}
+                                    {% if wasp.waspmoteid == alert.sensorfk.waspmoteid.waspmoteid %}
+                                        <h3 class="timeline-title">{{ wasp.appkeyid.appkeyid }}</h3>
+                                        <h5 class="timeline-title">{{ wasp.waspmote_name }}</h5>
+                                        <p>
+                                            <small class="text-muted"><i
+                                                    class="fa fa-clock-o"></i>{{ alert.timestampalert }}
+                                            </small>
+                                        </p>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                            <div class="timeline-body">
+                                <p>Leitura: {{ alert.valuealert }}</p>
+                                <p>Sensor: {{ alert.sensorfk.typesensorid.typesensorname }}</p>
+                            </div>
+                        </div>
+                    </li>
+                {% endif %}
             {% endfor %}
         </ul>
     </div>

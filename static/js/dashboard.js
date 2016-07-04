@@ -9,7 +9,7 @@ $("#waspmote-rows").click(function () {
 });
 
 $(document).ready(function () {
-    
+
     /*
      * Função que guarda o sensorId numa variavel json, para quando o utilizador submeter a form, o ajax
      * mande o sensorId para o python para saber que valores é que tem de ir buscar
@@ -18,7 +18,8 @@ $(document).ready(function () {
     $(".sensor").click(function () {
         $("#dash_geral").fadeOut("slow");
         $("#toolShow").show();
-        $("#tableContainer").empty();
+        $("#timest").empty();
+        $("#valuet").empty();
         $("#chartContainer").empty();
 
         var waspmoteId = $(this).parent().attr('id');
@@ -40,7 +41,6 @@ $(document).ready(function () {
         }
 
     });
-    
 
 
     $('#tableButton').click(function () {
@@ -53,7 +53,6 @@ $(document).ready(function () {
         $('#chartContainer').hide();
         document.getElementById("tableContainer").style.display = "inline-block";
         document.getElementById("tableContainer").style.width = "50%";
-        $('#tableContainer').show();
     });
 
     $('#graphButton').click(function () {
@@ -72,22 +71,27 @@ $(document).ready(function () {
         emptycontainers();
         //GRAFICO
         if (document.getElementById('graphButton').checked) {
-            $('#date_pick').empty();
+            $('#datepickerday').empty();
+            $('#datepickerinit').empty();
+            $('#datepickerfinal').empty();
             send100Data();
             $('#tableContainer').empty();
             $('#chartContainer').show();
         }
         //TABELA
         else if (document.getElementById('tableButton').checked) {
-            $('#date_pick').empty();
-            //send100Data();
+            $('#datepickerday').empty();
+            $('#datepickerinit').empty();
+            $('#datepickerfinal').empty();
+            send100Data();
             $('#chartContainer').empty();
             $('#tableContainer').show();
-            f
         }
         //AMBOS
         else {
-            $('#date_pick').empty();
+            $('#datepickerday').empty();
+            $('#datepickerinit').empty();
+            $('#datepickerfinal').empty();
             send100Data();
             $('#chartContainer').show();
             $('#tableContainer').show();
@@ -99,22 +103,27 @@ $(document).ready(function () {
         emptycontainers();
         //GRAFICO
         if (document.getElementById('graphButton').checked) {
-            $('#date_pick').empty();
+            $('#datepickerday').empty();
+            $('#datepickerinit').empty();
+            $('#datepickerfinal').empty();
             send1000Data();
             $('#tableContainer').empty();
             $('#chartContainer').show();
         }
         //TABELA
         else if (document.getElementById('tableButton').checked) {
-            $('#date_pick').empty();
-            //send100Data();
+            $('#datepickerday').empty();
+            $('#datepickerinit').empty();
+            $('#datepickerfinal').empty();
+            send1000Data();
             $('#chartContainer').empty();
             $('#tableContainer').show();
-            f
         }
         //AMBOS
         else {
-            $('#date_pick').empty();
+            $('#datepickerday').empty();
+            $('#datepickerinit').empty();
+            $('#datepickerfinal').empty();
             send1000Data();
             $('#chartContainer').show();
             $('#tableContainer').show();
@@ -123,9 +132,12 @@ $(document).ready(function () {
 
     //CUSTOM DAY PICKER
     $('#customDay').click(function () {
+        $('#datepickerday').empty();
+        $('#datepickerinit').empty();
+        $('#datepickerfinal').empty();
         $('#datepickIN').hide();
         $('#datepickFI').hide();
-        $('#chartContainer').hide();
+        emptycontainers();
         $('#date_pick').show();
         $('#datepickD').show();
 
@@ -137,9 +149,12 @@ $(document).ready(function () {
 
     //CUSTOM INTERVAL PICKER
     $('#customInterval').click(function () {
+        $('#datepickerday').empty();
+        $('#datepickerinit').empty();
+        $('#datepickerfinal').empty();
         $('#date_pick').show();
         $('#datepickD').hide();
-        $('#chartContainer').hide();
+        emptycontainers();
         $('#datepickIN').show();
         $("#datepickerinit").datepicker({
             changeMonth: true,
@@ -151,6 +166,27 @@ $(document).ready(function () {
             changeYear: true
         });
     });
+
+    function draw_table(values) {
+        var temptrid = document.getElementById('trtable');
+        var tempt = document.getElementById('timest');
+        var tempv = document.getElementById('valuet');
+
+        for (var i = 0; i < values.length; i++) {
+            var temptr = document.createElement("tr");
+            var tempvtd = document.createElement("tr");
+
+            temptr.innerHTML = values[i]['fields']['timestamp'];
+            tempvtd.innerHTML = values[i]['fields']['value'];
+
+            if (tempt != null || tempv != null) {
+                tempt.appendChild(temptr);
+                tempv.appendChild(tempvtd);
+                temptrid.appendChild(tempt);
+                temptrid.appendChild(tempv);
+            }
+        }
+    }
 
     function draw_graphic(values, text) {
         var xValues = [];
@@ -244,7 +280,16 @@ $(document).ready(function () {
             success: function (values) {
                 var text = 'Últimos 100 valores do Sensor';
                 console.log("success");
-                draw_graphic(values, text);
+                if (document.getElementById('tableButton').checked) {
+                    draw_table(values);
+                }
+                else if (document.getElementById('graphButton').checked) {
+                    draw_graphic(values, text);
+                }
+                else {
+                    draw_graphic(values, text);
+                    draw_table(values);
+                }
             },
             error: function () {
                 console.log("erro");
@@ -262,7 +307,16 @@ $(document).ready(function () {
             success: function (valuesmonth) {
                 var text = 'Últimos 1000 valores do Sensor';
                 console.log("success");
-                draw_graphic(valuesmonth, text);
+                if (document.getElementById('tableButton').checked) {
+                    draw_table(valuesmonth);
+                }
+                else if (document.getElementById('graphButton').checked) {
+                    draw_graphic(valuesmonth, text);
+                }
+                else {
+                    draw_graphic(valuesmonth, text);
+                    draw_table(valuesmonth);
+                }
             },
             error: function () {
                 console.log("erro");
@@ -287,24 +341,25 @@ $(document).ready(function () {
             data: aux,
             success: function (values) {
                 var text = 'Valores do Sensor';
-                emptycontainers();
+                //emptycontainers();
                 //GRAFICO
                 if (document.getElementById('graphButton').checked) {
-                    draw_graphic(values, text);
                     $('#tableContainer').empty();
                     $('#chartContainer').show();
+                    draw_graphic(values, text);
                 }
                 //TABELA
                 else if (document.getElementById('tableButton').checked) {
-                    //send100Data();
                     $('#chartContainer').empty();
                     $('#tableContainer').show();
+                    draw_table(values);
                 }
                 //AMBOS
                 else {
-                    draw_graphic(values, text);
                     $('#chartContainer').show();
                     $('#tableContainer').show();
+                    draw_graphic(values, text);
+                    draw_table(values);
                 }
             },
             error: function (values) {
@@ -334,24 +389,28 @@ $(document).ready(function () {
             data: aux2,
             success: function (values) {
                 var text = 'Valores do Sensor';
-                emptycontainers();
+                //emptycontainers();
                 //GRAFICO
                 if (document.getElementById('graphButton').checked) {
-                    draw_graphic(values, text);
                     $('#tableContainer').empty();
                     $('#chartContainer').show();
+                    draw_graphic(values, text);
+
                 }
                 //TABELA
                 else if (document.getElementById('tableButton').checked) {
-                    //send100Data();
                     $('#chartContainer').empty();
                     $('#tableContainer').show();
+                    draw_table(values);
+
                 }
                 //AMBOS
                 else {
-                    draw_graphic(values, text);
                     $('#chartContainer').show();
                     $('#tableContainer').show();
+                    draw_graphic(values, text);
+                    draw_table(values);
+
                 }
             },
             error: function (values) {
@@ -364,5 +423,6 @@ $(document).ready(function () {
 
 function emptycontainers() {
     $('#chartContainer').empty();
-    $('#tableContainer').empty();
+    $("#timest").empty();
+    $("#valuet").empty();
 }
