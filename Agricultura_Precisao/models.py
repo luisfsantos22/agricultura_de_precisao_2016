@@ -11,7 +11,7 @@ from django.db import models
 
 
 class Alert(models.Model):
-    alertid = models.IntegerField(primary_key=True)
+    alertid = models.IntegerField(db_column='alertid', primary_key=True)
     timestampalert = models.DateTimeField(db_column='timestampAlert')  # Field name made lowercase.
     valuealert = models.FloatField(db_column='valueAlert', blank=True, null=True)  # Field name made lowercase.
     sensorfk = models.ForeignKey('Sensor', models.DO_NOTHING, db_column='sensorFk', blank=True, null=True)  # Field name made lowercase.

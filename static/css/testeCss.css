@@ -3,8 +3,8 @@ body {
     background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.5) 100%), url('../images/fence_fields_greens_agriculture_14582_2560x1600.jpg');
     background-size: cover;
     margin: 0;
-    padding: 0;
     overflow: auto;
+    padding-top: 70px;
 }
 
 .appkeys {
@@ -40,7 +40,7 @@ body {
 .back_dash {
     background: rgba(255, 255, 255, 0.7);
     margin-left: 25%;
-    margin-top: 3%;
+    margin-top: 1%;
     margin-right: 1%;
 }
 

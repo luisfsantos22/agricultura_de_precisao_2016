@@ -112,8 +112,7 @@
     </h2>
     <div id="dash_geral">
         <!--<h1 style="text-align: center; height: 300px; font-size: 100px">Please choose a sensor</h1>-->
-        <h4 style="text-align: center; padding-top: 10px">Escolhe um ou mais sensores para usufruir de gráficos em Tempo
-            Real e muito mais!</h4>
+        <h4 style="text-align: center; padding-top: 10px">Escolha um sensor para usufruir de variados gráficos e tabelas.</h4>
         <div class="row" style="margin-left: 1%; text-align: center">
             <div id="imagens" class="w3-content w3-section"
                  style="text-align: center; max-width:500px;padding: 2%; display: inline-block">
@@ -196,7 +195,7 @@
 
             <!--TABLE-->
 
-            <div id="tableContainer" style="padding-top: 2% ;display: none;">
+            <div id="tableContainer" style="padding-top: 2%;display: none;">
 
                 <table class="table table-bordered table-responsive">
                     <thead>
@@ -205,13 +204,17 @@
                         <th>Value</th>
                     </tr>
                     </thead>
-                    <tbody>
-                    {% for value in sensor %}
-                        <tr>
-                            <td>{{ value.timestamp }}</td>
-                            <td>{{ value.value }}</td>
-                        </tr>
-                    {% endfor %}
+                    <tbody id="tbodytable">
+                    <tr id="trtable">
+                        <td id="timest"></td>
+                        <td id="valuet"></td>
+                    </tr>
+{#                    {% for value in sensor %}#}
+{#                        <tr>#}
+{#                            <td>{{ value.timestamp }}</td>#}
+{#                            <td>{{ value.value }}</td>#}
+{#                        </tr>#}
+{#                    {% endfor %}#}
                     </tbody>
                 </table>
             </div>
